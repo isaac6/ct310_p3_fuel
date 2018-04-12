@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Canoe extends Controller {
+class Controller_Federation extends Controller {
   /**
   * index
   */
@@ -11,5 +11,13 @@ class Controller_Canoe extends Controller {
       $views['content'] = View::forge('canoe/index');
       // return final view
       return View::forge('canoe/layout', $views);
+  }
+
+  /**
+  * status JSON
+  */
+  public function action_status() {
+    $json = "{\"status\":\"closed\"}";
+    return $json;
   }
 }
