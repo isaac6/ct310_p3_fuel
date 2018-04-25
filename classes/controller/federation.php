@@ -8,6 +8,8 @@ class Controller_Federation extends Controller {
   * index
   */
   public function action_index() {
+      //load tables
+      $this->load_tables();
       // init views array
       $views = array();
       // load index view into content
@@ -28,7 +30,7 @@ class Controller_Federation extends Controller {
     $response->body(json_encode($json, true));
     // set headers to application/json
     $response->set_header('Content-Type', 'application/json');
-    // return 
+    // return
     return parent::after($response);
   }
 
@@ -477,6 +479,18 @@ class Controller_Federation extends Controller {
       ), array('id', 'username'));
       $this->createUsers();
     }
+    //Attractions Table
+    if (!DBUtil::table_exists('attractions'))
+    {
+        DBUtil::create_table('attractions', array(
+            'attractionID' => array('constraint' => 11, 'type' => 'int', 'auto_increment' => true),
+            'name' => array('constraint' => 125, 'type' => 'varchar'),
+            'details' => array('type' => 'text'),
+            'img' => array('type' => 'text')
+        ), array('attractionId'));
+
+    }
+
     // check comments table
     if (!DBUtil::table_exists('comments')) {
       DBUtil::create_table('comments', array(
