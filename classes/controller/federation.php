@@ -20,8 +20,51 @@ class Controller_Federation extends Controller {
   * status JSON
   */
   public function action_status() {
-    $json = "{\"status\":\"closed\"}";
-    return $json;
+    $json = array('status'=>'closed');
+    $response = new Response();
+    $response->body(json_encode($json, true));
+    $response->set_header('Content-Type', 'application/json');
+    return parent::after($response);
+  }
+
+  /**
+  * all status - federation
+  */
+  public function action_allstatus() {
+    // init views array
+    $views = array();
+    // init data array
+    $data = array();
+
+
+    // @TODO this is temporary
+    $request = Request::forge('https://www.cs.colostate.edu/~ct310/yr2018sp/master.json', 'curl');
+    $request->set_method('get');
+    $request->set_mime_type('json');
+    $response = $request->execute()->response();
+    $data['response'] = $response;
+    //$data['response'] = 'Placeholder data';
+
+
+    // load allstatus view into content
+    $views['content'] = View::forge('federation/allstatus', $data);
+    // return final view
+    return View::forge('federation/layout', $views);
+  }
+
+  /**
+  * get status of a specific eid's store
+  * @param eid
+  */
+  public function action_getstatus($eid) {
+    // generate a request to the federation/status page of the given eid
+    $request = Request::forge('https://www.cs.colostate.edu/~' . $eid . '/ct310/index.php/federation/status', 'curl');
+    // set request method to GET and mime type to JSON
+    $request->set_method('get')->set_mime_type('json');
+    // execute and get the response
+    $response = $request->execute()->response();
+    // return raw response
+    return $response;
   }
 
   /**
