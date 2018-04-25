@@ -4,6 +4,7 @@ use Model\Ormattraction;
 use Model\Ormcomments;
 
 class Controller_Federation extends Controller {
+
   /**
   * index
   */
@@ -40,22 +41,43 @@ class Controller_Federation extends Controller {
   public function action_allstatus() {
     // init views array
     $views = array();
-    // init data array
-    $data = array();
-
-
-    // @TODO this is temporary, it just returns the raw response from master.json to the page
+    // init rows array
+    $rows = array();
+    // send request to get master json
     $request = Request::forge('https://www.cs.colostate.edu/~ct310/yr2018sp/master.json', 'curl');
-    $request->set_method('get');
-    $request->set_mime_type('json');
+    // set request type and mime type that we want back
+    $request->set_method('get')->set_mime_type('json');
+    // execute it and get response
     $response = $request->execute()->response();
-    $data['response'] = $response;
-    //$data['response'] = 'Placeholder data';
-    // @TODO need to make $response into an ORM object
-
-
+    // create json object
+    $json = Format::forge($response, 'json')->to_array();
+    // loop through it and get build rows for each element
+    foreach ($json as $element) {
+      // get the store status
+      $status = $this->getStatus($element['eid']);
+      // build the row element
+      // @TODO you may need to tweak some filtering settings in config for this to work, can't remember
+      $row = '<tr><td scope=\"row\">' . $element['eid'] . '</td>
+        <td>' . $element['team'] . '</td>
+        <td>' . $element['nameShort'] . '</td>
+        <td>' . $element['nameLong'] . '</td>';
+      // set some colors for the status element
+      if ($status === 'open') {
+        $row = $row . '<td class="status-green">' . $status . '</td>
+        </tr>';
+      } else if ($status === 'closed') {
+        $row = $row . '<td class="status-yellow">' . $status . '</td>
+        </tr>';
+      } else {
+        $row = $row . '<td class="status-red">' . $status . '</td>
+        </tr>';
+      }
+      // insert into array of rows at pos 0
+      // @TODO push to the back of array, not front, so that the table isn't in backwards order
+      Arr::insert($rows, $row, 0);
+    }
     // load allstatus view into content
-    $views['content'] = View::forge('federation/allstatus', $data);
+    $views['content'] = View::forge('federation/allstatus', $rows)->set('rows', $rows, false);
     // return final view
     return View::forge('federation/layout', $views);
   }
@@ -74,10 +96,37 @@ class Controller_Federation extends Controller {
       $response = $request->execute()->response();
     } catch (Exception $e) {
       $response = 'Server did not return a valid JSON (mimetype application/json)';
+      return $response;
     }
-    // return raw response
-    // @TODO need to make $response into an ORM object to access it's data
-    return $response;
+    // create json object
+    $json = Format::forge($response, 'json')->to_array();
+    // return the status element in raw text format
+    return $json['status'];
+  }
+
+  /**
+  * get status of an eid's store
+  * takes several parameters
+  * @param eid
+  * returns the status in raw format
+  */
+  private function getStatus($eid) {
+    // generate a request to the federation/status page of the given eid
+    $request = Request::forge('https://www.cs.colostate.edu/~' . $eid . '/ct310/index.php/federation/status', 'curl');
+    // set request method to GET and mime type to JSON
+    $request->set_method('get')->set_mime_type('json');
+    // set default value for status to error
+    $status = 'error';
+    // try to execute and get the response
+    try {
+      $response = $request->execute()->response();
+      // create json object
+      $json = Format::forge($response, 'json')->to_array();
+      // set status to the status
+      $status = $json['status'];
+    } catch (Exception $e) {} // ignore exception
+    // return the status
+    return $status;
   }
 
   /**
