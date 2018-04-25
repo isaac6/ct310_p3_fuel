@@ -56,25 +56,23 @@ class Controller_Federation extends Controller {
       // get the store status
       $status = $this->getStatus($element['eid']);
       // build the row element
-      // @TODO you may need to tweak some filtering settings in config for this to work, can't remember
       $row = '<tr><td scope=\"row\">' . $element['eid'] . '</td>
         <td>' . $element['team'] . '</td>
         <td>' . $element['nameShort'] . '</td>
         <td>' . $element['nameLong'] . '</td>';
       // set some colors for the status element
       if ($status === 'open') {
-        $row = $row . '<td class="status-green">' . $status . '</td>
+        $row = $row . '<td class="status-green outline-dark">' . $status . '</td>
         </tr>';
       } else if ($status === 'closed') {
-        $row = $row . '<td class="status-yellow">' . $status . '</td>
+        $row = $row . '<td class="status-yellow outline-dark">' . $status . '</td>
         </tr>';
       } else {
-        $row = $row . '<td class="status-red">' . $status . '</td>
+        $row = $row . '<td class="status-red outline-dark">' . $status . '</td>
         </tr>';
       }
-      // insert into array of rows at pos 0
-      // @TODO push to the back of array, not front, so that the table isn't in backwards order
-      Arr::insert($rows, $row, 0);
+      // push to the back of the rows array (in order)
+      array_push($rows, $row);
     }
     // load allstatus view into content
     $views['content'] = View::forge('federation/allstatus', $rows)->set('rows', $rows, false);
