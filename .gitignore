@@ -40,4 +40,8 @@ classes/controller/travelco.php
 views/travelco/*
 classes/controller/northdakota.php
 classes/model/northdakota.php
-
+classes/controller/.gitkeep
+classes/controller/mycontrol.php
+classes/model/.gitkeep
+views/.gitkeep
+views/mycontrol/
