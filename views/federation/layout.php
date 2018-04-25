@@ -2,11 +2,11 @@
 <html lang='en-US'>
 
 <head>
-    <title>federation Travel Company</title>
+    <title>Canoe Travel Company</title>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <meta name='keywords' content='travel'>
-    <meta name='author' content='Isaac Hall, Jacob Royer'>
+    <meta name='author' content='Isaac Hall, Jack Searl'>
     <?php echo Asset::css('bootstrap.css');?>
     <?php echo Asset::css('federation.css');?>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>

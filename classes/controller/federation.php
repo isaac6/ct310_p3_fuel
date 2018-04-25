@@ -51,6 +51,7 @@ class Controller_Federation extends Controller {
     $response = $request->execute()->response();
     $data['response'] = $response;
     //$data['response'] = 'Placeholder data';
+    // @TODO need to make $response into an ORM object
 
 
     // load allstatus view into content
@@ -68,9 +69,14 @@ class Controller_Federation extends Controller {
     $request = Request::forge('https://www.cs.colostate.edu/~' . $eid . '/ct310/index.php/federation/status', 'curl');
     // set request method to GET and mime type to JSON
     $request->set_method('get')->set_mime_type('json');
-    // execute and get the response
-    $response = $request->execute()->response();
+    // try to execute and get the response
+    try {
+      $response = $request->execute()->response();
+    } catch (Exception $e) {
+      $response = 'Server did not return a valid JSON (mimetype application/json)';
+    }
     // return raw response
+    // @TODO need to make $response into an ORM object to access it's data
     return $response;
   }
 
