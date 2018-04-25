@@ -68,7 +68,7 @@ class Controller_Federation extends Controller {
         $row = $row . '<td class="status-red outline-dark">' . $status . '</td>
         </tr>';
       } else {
-        $row = $row . '<td class="status-red outline-dark">' . $status . '</td>
+        $row = $row . '<td class="status-yellow outline-dark">' . $status . '</td>
         </tr>';
       }
       // push to the back of the rows array (in order)
