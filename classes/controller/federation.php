@@ -4,6 +4,7 @@ use Model\Ormattraction;
 use Model\Ormcomments;
 
 class Controller_Federation extends Controller {
+  
   /**
   * index
   */
@@ -50,14 +51,18 @@ class Controller_Federation extends Controller {
     $json = Format::forge($response, 'json')->to_array();
     // loop through it and get build rows for each element
     foreach ($json as $element) {
+      // get the store status
       $status = $this->getStatus($element['eid']);
-      //$row = View::forge('federation/statuselement', $element, $status);
+      // build the row element
+      // @TODO you may need to tweak some filtering settings in config for this to work, can't remember
       $row = '<tr><td scope=\"row\">' . $element['eid'] . '</td>
         <td>' . $element['team'] . '</td>
         <td>' . $element['nameShort'] . '</td>
         <td>' . $element['nameLong'] . '</td>
         <td>' . $status . '</td>
         </tr>';
+      // insert into array of rows at pos 0
+      // @TODO push to the back of array, not front, so that the table isn't in backwards order
       Arr::insert($rows, $row, 0);
     }
     // load allstatus view into content
@@ -89,13 +94,10 @@ class Controller_Federation extends Controller {
   }
 
   /**
-  * private function
+  * get status of an eid's store
   * takes several parameters
   * @param eid
-  * @param team
-  * @param nameShort
-  * @param nameLong
-  * returns an html table row element
+  * returns the status in raw format
   */
   private function getStatus($eid) {
     // generate a request to the federation/status page of the given eid
