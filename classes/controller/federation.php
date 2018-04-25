@@ -4,7 +4,7 @@ use Model\Ormattraction;
 use Model\Ormcomments;
 
 class Controller_Federation extends Controller {
-  
+
   /**
   * index
   */
@@ -58,9 +58,18 @@ class Controller_Federation extends Controller {
       $row = '<tr><td scope=\"row\">' . $element['eid'] . '</td>
         <td>' . $element['team'] . '</td>
         <td>' . $element['nameShort'] . '</td>
-        <td>' . $element['nameLong'] . '</td>
-        <td>' . $status . '</td>
+        <td>' . $element['nameLong'] . '</td>';
+      // set some colors for the status element
+      if ($status === 'open') {
+        $row = $row . '<td class="status-green">' . $status . '</td>
         </tr>';
+      } else if ($status === 'closed') {
+        $row = $row . '<td class="status-yellow">' . $status . '</td>
+        </tr>';
+      } else {
+        $row = $row . '<td class="status-red">' . $status . '</td>
+        </tr>';
+      }
       // insert into array of rows at pos 0
       // @TODO push to the back of array, not front, so that the table isn't in backwards order
       Arr::insert($rows, $row, 0);
