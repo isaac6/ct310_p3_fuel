@@ -473,6 +473,6 @@ class Controller_Federation extends Controller {
     Auth::create_user('ct310', 'a6cebbf02cc311177c569525a0f119d7', 'ct310@cs.colostate.edu  ', 10, array());
     Auth::create_user('isaac', 'admin', 'isaac.hall@colostate.edu', 10, array());
     Auth::create_user('customer', 'test', 'iyzik@aol.com', 1, array());
-    Auth::create_user('jacob', 'admin', 'jacob.royer@rams.colostate.edu', 10, array());
+    Auth::create_user('jack', 'admin', 'jack.searl@colostate.edu', 10, array());
   }
 }

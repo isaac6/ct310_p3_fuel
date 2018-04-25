@@ -2,4 +2,4 @@
 
 Isaac Hall and Jack Searl
 
-www.cs.colostate.edu/~isaach/ct310/index.php/canoe
+www.cs.colostate.edu/~isaach/ct310/index.php/federation
