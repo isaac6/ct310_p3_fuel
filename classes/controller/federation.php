@@ -20,10 +20,15 @@ class Controller_Federation extends Controller {
   * status JSON
   */
   public function action_status() {
+    // create json array
     $json = array('status'=>'closed');
+    // create new response
     $response = new Response();
+    // encode array as a json and set it to the body
     $response->body(json_encode($json, true));
+    // set headers to application/json
     $response->set_header('Content-Type', 'application/json');
+    // return 
     return parent::after($response);
   }
 
@@ -37,7 +42,7 @@ class Controller_Federation extends Controller {
     $data = array();
 
 
-    // @TODO this is temporary
+    // @TODO this is temporary, it just returns the raw response from master.json to the page
     $request = Request::forge('https://www.cs.colostate.edu/~ct310/yr2018sp/master.json', 'curl');
     $request->set_method('get');
     $request->set_mime_type('json');
