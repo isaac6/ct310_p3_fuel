@@ -2,6 +2,7 @@
   <div id="attraction">
     <center><h2><?=$attraction['name']?></h2></center>
     <center><?=Asset::img($attraction['img']);?></center>
+    <center><h5><?=$attraction['state']?></h5></center>
     <center><h5><?=$attraction['details']?></h5></center>
   </div>
   <div id="comments">

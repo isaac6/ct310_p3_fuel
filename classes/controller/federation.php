@@ -530,7 +530,8 @@ class Controller_Federation extends Controller {
             'details' => array('type' => 'text'),
             'img' => array('type' => 'text')
         ), array('attractionId'));
-
+        //Default Attractions
+        $this->defaultAttractions();
     }
 
     // check comments table
@@ -578,5 +579,40 @@ class Controller_Federation extends Controller {
     Auth::create_user('isaac', 'admin', 'isaac.hall@colostate.edu', 10, array());
     Auth::create_user('customer', 'test', 'iyzik@aol.com', 1, array());
     Auth::create_user('jack', 'admin', 'jack.searl@colostate.edu', 10, array());
+  }
+
+  /**
+  * creates default attractions upon creation of attractions table
+  */
+  private function defaultAttractions() {
+      //attraction 1, set variables
+      $name = 'International Peace Garden';
+      $details = 'Since 1932, nestled in the Turtle Mountains of North Dakota and Manitoba, the International Peace Garden
+                    is one of the continent\'s most symbolic and scenic attractions. Thousand of tourists flock to this unique
+                    tribute to peace and friendship between the people of the United States of America and the people of Canada.';
+      $img = 'garden.jpg';
+      $state = 'ND';
+      //create attraction
+      $attraction1 = new Ormattraction();
+      $attraction1->name = $name;
+      $attraction1->details = $details;
+      $attraction1->img = $img;
+      $attraction1->state = $state;
+      $attraction1->save();
+      //attraction 2, set variables
+      $name2 = 'Theodore Roosevelt National Park';
+      $details2 = 'Theodore Roosevelt National Park lies in western North Dakota, where the Great Plains meet the rugged Badlands.
+                    A habitat for bison, elk and prairie dogs, the sprawling park has 3 sections linked by the Little Missouri River.
+                    The park is known for the South Unit’s colorful Painted Canyon and the Maltese Cross Cabin, where President
+                    Roosevelt once lived. The Scenic Loop Drive winds past several overlooks and trails.';
+      $img2 = 'buffalo.jpg';
+      $state2 = 'ND';
+      //create attraction
+      $attraction2 = new Ormattraction();
+      $attraction2->name = $name2;
+      $attraction2->details = $details2;
+      $attraction2->state = $state2;
+      $attraction2->img = $img2;
+      $attraction2->save();
   }
 }
