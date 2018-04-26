@@ -56,7 +56,7 @@ class Controller_Federation extends Controller {
       // get the store status
       $status = $this->getStatus($element['eid']);
       // build the row element
-      $row = '<tr><td scope=\"row\">' . $element['eid'] . '</td>
+      $row = '<tr><td scope="row">' . $element['eid'] . '</td>
         <td>' . $element['team'] . '</td>
         <td>' . $element['nameShort'] . '</td>
         <td>' . $element['nameLong'] . '</td>';
@@ -83,23 +83,11 @@ class Controller_Federation extends Controller {
   /**
   * get status of a specific eid's store
   * @param eid
+  * this method can probably be deleted but it might be good for testing in case something breaks
   */
   public function action_getstatus($eid) {
-    // generate a request to the federation/status page of the given eid
-    $request = Request::forge('https://www.cs.colostate.edu/~' . $eid . '/ct310/index.php/federation/status', 'curl');
-    // set request method to GET and mime type to JSON
-    $request->set_method('get')->set_mime_type('json');
-    // try to execute and get the response
-    try {
-      $response = $request->execute()->response();
-    } catch (Exception $e) {
-      $response = 'Server did not return a valid JSON (mimetype application/json)';
-      return $response;
-    }
-    // create json object
-    $json = Format::forge($response, 'json')->to_array();
-    // return the status element in raw text format
-    return $json['status'];
+    // just grab the output from private getStatus()
+    return $this->getStatus($eid);
   }
 
   /**
@@ -538,6 +526,7 @@ class Controller_Federation extends Controller {
         DBUtil::create_table('attractions', array(
             'attractionID' => array('constraint' => 11, 'type' => 'int', 'auto_increment' => true),
             'name' => array('constraint' => 125, 'type' => 'varchar'),
+            'state' => array('constraint' => 125, 'type' => 'varchar'),
             'details' => array('type' => 'text'),
             'img' => array('type' => 'text')
         ), array('attractionId'));
