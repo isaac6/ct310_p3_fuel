@@ -15,5 +15,5 @@
       }
     ?>
   </h3>
-  <h4><a href="<?=Uri::Create('index.php/travelco/reset') ?>">Click here to reset your password</a></h4>
+  <h4><a href="<?=Uri::Create('index.php/federation/reset') ?>">Click here to reset your password</a></h4>
 </div>
