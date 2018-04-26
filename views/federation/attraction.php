@@ -23,7 +23,7 @@
                   <div id="buttonGroup">
                   <button type="submit" class="btn btn-primary btn-xs" name="save_id" value="<?=$comment['commentID']?>">Save</button>
                 </form>
-                <form method="post" action="<?=Uri::create('index.php/travelco/delete_comment');?>">
+                <form method="post" action="<?=Uri::create('index.php/federation/delete_comment');?>">
                   <button type="submit" class="btn btn-danger btn-xs" name="delete_id" value="<?=$comment['commentID']?>">Delete</button>
                   </div>
                 </form>
@@ -44,7 +44,7 @@
     <!--add new comment box-->
     <div>
       <?php if (Auth::check()): ?>
-        <form method="post" id="commentNew" action="<?=Uri::create('index.php/travelco/add_comment');?>" >
+        <form method="post" id="commentNew" action="<?=Uri::create('index.php/federation/add_comment');?>" >
           Add comment: <textarea name='new_content' id="commentEditTextArea"></textarea>
           <button type="submit" class="btn btn-success btn-xs" name="add_id" value="<?=$attraction['id'];?>">Add</button>
         </form>
