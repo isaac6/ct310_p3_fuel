@@ -131,6 +131,27 @@ class Controller_Federation extends Controller {
     $response->set_header('Content-Type', 'image/jpeg');
     // return
     return $respones;
+    try {
+      // get ORM object
+      $attraction = Ormattraction::find($img);
+      // get the image name
+      $img_name = $attraction['img'];
+      // get the image path
+      $img_path = Asset::find_file($img_name, 'img');
+      // get the image data
+      $img_data = file_get_contents($img_path);
+      // create new response
+      $response = new Response();
+      // get the image data
+      $response->body($img_data);
+      // set headers to image/jpeg
+      $response->set_header('Content-Type', 'image/jpeg');
+      // return
+      return parent::after($response);
+    } catch (Exception $e) {
+      // create new respone object with error and return it
+      return Response::forge('Invalid image ID');
+    }
   }
 
   /**
