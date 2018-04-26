@@ -14,5 +14,5 @@
   }
   ?>
   <br/>
-  <a href= '<?=Uri::create('index.php/travelco/forgot/'); ?>'>Forgot Password?</a>
+  <a href= '<?=Uri::create('index.php/federation/forgot/'); ?>'>Forgot Password?</a>
 </div>
