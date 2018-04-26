@@ -127,10 +127,84 @@ class Controller_Federation extends Controller {
     $response = new Response();
     // encode array as a json and set it to the body
     $response->body($img_data);
-    // set headers to application/json
+    // set headers to image/jpeg
     $response->set_header('Content-Type', 'image/jpeg');
     // return
     return $respones;
+  }
+
+  /**
+  * action listing
+  * returns our attractions as a json in the format:
+  * [{"id":"1","name":"Yosemite","state":"CA"}]
+  */
+  public function action_listing(){
+      // get ORM objects
+      $attractions = Ormattraction::find('all');
+      $json = array();
+      // remove details
+      foreach ($attractions as $attr) {
+          $json_data = array(
+              'id'=>$attr['attractionID'],
+              'name'=>$attr['name'],
+              'state'=>$attr['state']
+          );
+          array_push($json, $json_data);
+      }
+      // create new response
+      $response = new Response();
+      // encode array as a json and set it to the body
+      $response->body(json_encode($json, true));
+      // set headers to application/json
+      $response->set_header('Content-Type', 'application/json');
+      // return the status
+      return parent::after($response);
+  }
+
+  /**
+  * action listing
+  * returns our attractions as a json in the format:
+  * {"id":"2","name":"Mt. Rushmore","desc":"Look, those rocks looks like the faces of presidents!","state":"SD"}
+  */
+  public function action_attraction($id){
+      // get ORM object
+      $attraction = Ormattraction::find($id);
+      if($attraction !== null){
+          //create json
+          $json = array(
+              'id'=>$attraction['attractionID'],
+              'name'=>$attraction['name'],
+              'desc'=> $attraction['details'],
+              'state'=>$attraction['state']
+          );
+          // create new response
+          $response = new Response();
+          // encode array as a json and set it to the body
+          $response->body(json_encode($json, true));
+          // set headers to application/json
+          $response->set_header('Content-Type', 'application/json');
+          // return the status
+          return parent::after($response);
+      } else {
+          return $this->defaultAttractionJSON();
+      }
+
+  }
+
+  /**
+  * returns the default json for listing
+  */
+  private function defaultAttractionJSON(){
+      // create json
+      $json = array('id'=>'null','name'=>'null','desc'=>'null','state'=>'null');
+      // create new response
+      $response = new Response();
+      // encode array as a json and set it to the body
+      $response->body(json_encode($json, true));
+      // set headers to application/json
+      $response->set_header('Content-Type', 'application/json');
+      // return
+      return parent::after($response);
   }
 
   /**
@@ -328,7 +402,7 @@ class Controller_Federation extends Controller {
   * attraction view
   * @param id
   */
-  public function action_attraction($id) {
+  public function action_view_attraction($id) {
     // setup data array
     $data = array();
     // find the attraction object
@@ -337,7 +411,7 @@ class Controller_Federation extends Controller {
     // spool up the views array
     $views = array();
     // set the content and give it the attraction object
-    $views['content'] = View::forge('federation/attraction', $data);
+    $views['content'] = View::forge('federation/view_attraction', $data);
     // return final view
     return View::forge('federation/layout', $views);
   }
