@@ -24,7 +24,7 @@ class Controller_Federation extends Controller {
   */
   public function action_status() {
     // create json array
-    $json = array('status'=>'closed');
+    $json = array('status'=>'open');
     // create new response
     $response = new Response();
     // encode array as a json and set it to the body
@@ -292,6 +292,101 @@ class Controller_Federation extends Controller {
       $views['content'] = View::forge('federation/account');
       // return final view
       return View::forge('federation/layout', $views);
+  }
+
+  /**
+   * view Store Page
+   * @access  public
+   * @return  View
+   */
+  public function action_store()
+  {
+      //make parameters
+      $data = array();
+      $data['success'] = '';
+      //load the layout
+      $layout = View::forge('federation/layout');
+      //load the view
+      $content = View::forge('federation/store', $data);
+      //forge inner view
+      $layout->content = Response::forge($content);
+      return $layout;
+  }
+
+  public function post_store()
+  {
+      //make parameters
+      $data = array();
+      $data['success'] = '';
+
+      $username = Auth::get('username');
+      $email = Auth::get('email');
+      $amount = filter_var($_POST['Order_Amount'], FILTER_SANITIZE_STRING);
+
+      if($amount >= 1) {
+          $success = true;
+          $this->email_order($amount, $username, $email);
+      } else {
+          $success = false;
+      }
+
+      //load the layout
+      $layout = View::forge('federation/layout');
+      //load the view
+      $content = View::forge('federation/store', $data);
+      //forge inner view
+      $layout->content = Response::forge($content);
+      return $layout;
+  }
+
+  private function email_order($amount, $username, $email) {
+
+      $sending_email = Email::forge();
+      $sending_email->from('jack.searl@colostate.edu', 'Definitely Not Kayak.com LLC');
+      $sending_email->to($email, $username);
+      $sending_email->subject('Brochure Order Confirmation.');
+      $sending_email->body('Dear ' . $username . ',
+
+      You have submitted a request for ' . $amount . ' free brochure(s).
+
+      Your order is processing and you should excpect the shipment within 1-2 weeks.
+
+      If you did not request these brochures, please contact us at help@definitelynotkayak.com as soon as possible.'
+      );
+      try{
+          $sending_email->send();
+          //email admins of the order
+          $this->email_admins_order($amount, $username, $email);
+      } catch(\EmailValidationFailedException $e) {
+          echo 'validation failed';
+      } catch(\EmailSendingFailedException $e) {
+          echo 'the driver could not send the email';
+      }
+  }
+
+  private function email_admins_order($amount, $username, $email){
+      $sending_email = Email::forge();
+      $sending_email->from('jack.searl@colostate.edu', 'Definitely Not Kayak.com LLC');
+      $sending_email->to(array(
+          'Aaron.Pereira@colostate.edu',
+          'ct310@cs.colostate.edu',
+          'jack.searl@colostate.edu',
+          'isaac.hall@colostate.edu',
+          ));
+      $sending_email->subject('Brochure Order Confirmation.');
+      $sending_email->body('User: '.$username.'
+      Email: '.$email.'
+      Amount Ordered: '.$amount.'
+
+      This has been ordered successfully.'
+      );
+      try{
+          $sending_email->send();
+      } catch(\EmailValidationFailedException $e) {
+          echo 'validation failed';
+      } catch(\EmailSendingFailedException $e) {
+          echo 'the driver could not send the email';
+      }
   }
 
   /**
@@ -602,13 +697,6 @@ class Controller_Federation extends Controller {
     $views['content'] = View::forge('federation/reset', $data);
     // return final view
     return View::forge('federation/layout', $views);
-  }
-
-  /**
-  * action store
-  */
-  public function action_store() {
-
   }
 
   /**
