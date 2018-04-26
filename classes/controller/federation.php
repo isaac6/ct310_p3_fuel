@@ -92,7 +92,6 @@ class Controller_Federation extends Controller {
 
   /**
   * get status of an eid's store
-  * takes several parameters
   * @param eid
   * returns the status in raw format
   */
@@ -113,6 +112,19 @@ class Controller_Federation extends Controller {
     } catch (Exception $e) {} // ignore exception
     // return the status
     return $status;
+  }
+
+  /**
+  * action attraction image
+  * @param img
+  */
+  public function action_attrimage($img) {
+    // get ORM object
+    $attraction = Ormattraction::find($img);
+    // get the image name
+    $img = Image::load($img);
+    // return
+    return $img;
   }
 
   /**
