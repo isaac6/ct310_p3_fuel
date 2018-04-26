@@ -122,9 +122,15 @@ class Controller_Federation extends Controller {
     // get ORM object
     $attraction = Ormattraction::find($img);
     // get the image name
-    $img = Image::load($img);
+    $img_data = Image::load($img);
+    // create new response
+    $response = new Response();
+    // encode array as a json and set it to the body
+    $response->body($img_data);
+    // set headers to application/json
+    $response->set_header('Content-Type', 'image/jpeg');
     // return
-    return $img;
+    return $respones;
   }
 
   /**
@@ -248,6 +254,7 @@ class Controller_Federation extends Controller {
   public function post_add_attraction() {
     // sanitize
     $name = filter_var($_POST['title'], FILTER_SANITIZE_STRING);
+    $state = filter_var($_POST['state'], FILTER_SANITIZE_STRING);
     $content = filter_var($_POST['content'], FILTER_SANITIZE_STRING);
     // setup data array for parameters
     $data = array();
@@ -287,6 +294,7 @@ class Controller_Federation extends Controller {
         $attraction = new Ormattraction();
         $attraction->name = $name;
         $attraction->details = $content;
+        $attraction->state = $state;
         $attraction->img = $img_data;
         // save it
         $attraction->save();

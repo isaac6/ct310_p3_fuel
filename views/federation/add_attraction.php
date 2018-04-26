@@ -1,6 +1,7 @@
 <div id="content" class="container-fluid dark-opac-bg">
   <form method='post' enctype='multipart/form-data'>
     <div id="attractionForm">Attraction title: <input type='text' name='title' placeholder='title'></div>
+    <div id="attractionForm">State: <textarea name='state' placeholder='state'></textarea></div>
     <div id="attractionForm">Main content: <textarea name='content'>main article content</textarea></div>
     <div id="imgForm"><div id="imgFormTag">Attraction image: </div><div id="imgFormUpload"><input type='file' name='file' id='file'></div></div>
     <input type='submit' name='submit' value='Add Attraction'>
