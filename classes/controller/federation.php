@@ -119,18 +119,6 @@ class Controller_Federation extends Controller {
   * @param img
   */
   public function action_attrimage($img) {
-    // get ORM object
-    $attraction = Ormattraction::find($img);
-    // get the image name
-    $img_data = Image::load($img);
-    // create new response
-    $response = new Response();
-    // encode array as a json and set it to the body
-    $response->body($img_data);
-    // set headers to image/jpeg
-    $response->set_header('Content-Type', 'image/jpeg');
-    // return
-    return $respones;
     try {
       // get ORM object
       $attraction = Ormattraction::find($img);
@@ -535,7 +523,7 @@ class Controller_Federation extends Controller {
   /**
   * attraction view POST
   */
-  public function post_attraction() {
+  public function post_view_attraction() {
     // sanitize
     $id = filter_var($_POST['save_id'], FILTER_SANITIZE_STRING);
     $content = filter_var($_POST['content'], FILTER_SANITIZE_STRING);

@@ -5,10 +5,10 @@
       echo "<h4>None</h4>";
     } else {
       foreach ($attractions as $attraction):?>
-        <form method = "post">
+        <form method = "post" onSubmit="return confirm('Are you sure you want to delete this?')">
           <a href="<?=Uri::create('index.php/federation/view_attraction/' . $attraction['attractionID']); ?>"><?=$attraction['name']; ?></a>
             <?php if (Auth::check() && Auth::get('group') === '10'): ?>
-              <button type="submit" class="btn btn-danger btn-xs" name="delete_id" value="<?=$attraction['id']?>">Delete</button>
+              <button type="submit" class="btn btn-danger btn-xs" name="delete_id" value="<?=$attraction['attractionID']?>">Delete</button>
             <?php endif;?>
         </form>
       <?php endforeach; } ?>
