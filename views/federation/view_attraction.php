@@ -23,7 +23,7 @@
                   <div id="buttonGroup">
                   <button type="submit" class="btn btn-primary btn-xs" name="save_id" value="<?=$comment['commentID']?>">Save</button>
                 </form>
-                <form method="post" action="<?=Uri::create('index.php/federation/delete_comment');?>">
+                <form method="post" onSubmit="return confirm('Are you sure you want to delete this?')" action="<?=Uri::create('index.php/federation/delete_comment');?>">
                   <button type="submit" class="btn btn-danger btn-xs" name="delete_id" value="<?=$comment['commentID']?>">Delete</button>
                   </div>
                 </form>
@@ -46,7 +46,7 @@
       <?php if (Auth::check()): ?>
         <form method="post" id="commentNew" action="<?=Uri::create('index.php/federation/add_comment');?>" >
           Add comment: <textarea name='new_content' id="commentEditTextArea"></textarea>
-          <button type="submit" class="btn btn-success btn-xs" name="add_id" value="<?=$attraction['id'];?>">Add</button>
+          <button type="submit" class="btn btn-success btn-xs" name="add_id" value="<?=$attraction['attractionID'];?>">Add</button>
         </form>
       <?php endif;?>
     </div>

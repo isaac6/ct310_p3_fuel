@@ -523,7 +523,7 @@ class Controller_Federation extends Controller {
   /**
   * attraction view POST
   */
-  public function post_attraction() {
+  public function post_view_attraction() {
     // sanitize
     $id = filter_var($_POST['save_id'], FILTER_SANITIZE_STRING);
     $content = filter_var($_POST['content'], FILTER_SANITIZE_STRING);
