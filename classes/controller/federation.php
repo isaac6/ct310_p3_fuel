@@ -214,6 +214,18 @@ class Controller_Federation extends Controller {
   }
 
   /**
+   * temporarily show a 'loading' image
+   */
+  public function action_allstatus_loading(){
+    // setup array for final views
+    $views = array();
+    // load attractions view into content
+    $views['content'] = View::forge('federation/allstatus_loading');
+    // return final view
+    return View::forge('federation/layout', $views);
+  }
+  
+  /**
   * login
   */
   public function action_login() {
