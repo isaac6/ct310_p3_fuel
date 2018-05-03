@@ -96,19 +96,16 @@ class Controller_Federation extends Controller {
   * returns the status in raw format
   */
   private function getStatus($eid) {
-    // generate a request to the federation/status page of the given eid
-    $request = Request::forge('https://www.cs.colostate.edu/~' . $eid . '/ct310/index.php/federation/status', 'curl');
-    // set request method to GET and mime type to JSON
-    $request->set_method('get')->set_mime_type('json');
+    //url page of the given eid
+    $url = 'https://www.cs.colostate.edu/~' . $eid . '/ct310/index.php/federation/status';
     // set default value for status to error
     $status = 'error';
-    // try to execute and get the response
+    // try to get the string from the url
     try {
-      $response = $request->execute()->response();
-      // create json object
-      $json = Format::forge($response, 'json')->to_array();
-      // set status to the status
-      $status = $json['status'];
+        //decode to a json at the same time
+        $json = json_decode(file_get_contents($url));
+        // set status to the status
+        $status = $json->status;
     } catch (Exception $e) {} // ignore exception
     // return the status
     return $status;
