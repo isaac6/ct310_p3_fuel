@@ -1,6 +1,6 @@
 <div id="content" class="container-fluid dark-opac-bg">
-  <center><h2>Attractions:</h2></center>
   <div id="attractionsList">
+    <center><h2>Our Attractions:</h2></center>
     <?php if (empty($attractions)) {
       echo "<h4>None</h4>";
     } else {
@@ -12,5 +12,32 @@
             <?php endif;?>
         </form>
       <?php endforeach; } ?>
+  </div>
+  <div id="attractionsList">
+    <center><h2>Federation Attractions:</h2></center>
+    <div id="list"></div>
+    <script>
+    $(document).ready(function () {
+      $.ajax({
+        type: 'GET',
+        url: 'http://cs.colostate.edu/~ct310/yr2018sp/master.json',
+        async: false,
+        success: function (data) {
+          var showList = $('#list');
+          console.log(data);
+          var teams = data.map(function (item) {
+            $.getJSON('http://cs.colostate.edu/~' + item.eid + '/ct310/index.php/federation/attraction/listing', function(jsobj) {
+              var pages = jsobj.map(function(page) {
+                if (page.name != null) {
+                  showList.append('<a href="http://cs.colostate.edu/~isaach/ct310/index.php/federation/view_external_attraction/' + item.eid + '/' + page.id + '">' + page.name + '</a><br/>');
+                }
+              });
+              return pages;
+            });
+          });
+        }
+      });
+    });
+    </script>
   </div>
 </div>
