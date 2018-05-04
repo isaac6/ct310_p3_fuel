@@ -39,8 +39,7 @@ class Controller_Federation extends Controller {
   * all status - federation
   */
   public function action_allstatus() {
-    // init views array
-    $views = array();
+    /*
     // init rows array
     $rows = array();
     // send request to get master json
@@ -76,6 +75,11 @@ class Controller_Federation extends Controller {
     }
     // load allstatus view into content
     $views['content'] = View::forge('federation/allstatus', $rows)->set('rows', $rows, false);
+    */
+    // setup array for final views
+    $views = array();
+    // load attractions view into content
+    $views['content'] = View::forge('federation/allstatus');
     // return final view
     return View::forge('federation/layout', $views);
   }
@@ -211,18 +215,6 @@ class Controller_Federation extends Controller {
       $response->set_header('Content-Type', 'application/json');
       // return
       return parent::after($response);
-  }
-
-  /**
-   * temporarily show a 'loading' image
-   */
-  public function action_allstatus_loading(){
-    // setup array for final views
-    $views = array();
-    // load attractions view into content
-    $views['content'] = View::forge('federation/allstatus_loading');
-    // return final view
-    return View::forge('federation/layout', $views);
   }
   
   /**
