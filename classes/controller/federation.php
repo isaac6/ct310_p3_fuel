@@ -218,6 +218,34 @@ class Controller_Federation extends Controller {
   }
   
   /**
+   * view external attraction
+   * @param eid
+   * @param id
+   */
+  public function action_view_external_attraction($eid, $id){
+    // build the request url
+    $request = Request::forge('http://cs.colostate.edu/~' . $eid . '/ct310/index.php/federation/attraction/' . $id, 'curl');
+    // set request type and mime type that we want back
+    $request->set_method('get');
+    // execute it and get response
+    $response = $request->execute()->response();
+    // create json object
+    $json = Format::forge($response, 'json')->to_array();
+    // try to get the json from it
+    $data = array();
+    $data['eid'] = $eid;
+    $data['id'] = $id;
+    $data['name'] = $json['name'];
+    $data['state'] = $json['state'];
+    $data['details'] = $json['desc'];
+    // pass data array to view
+    $views = array();
+    $views['content'] = View::forge('federation/view_external_attraction', $data);
+    // build final view and return
+    return View::forge('federation/layout', $views);
+  }
+  
+  /**
   * login
   */
   public function action_login() {

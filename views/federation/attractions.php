@@ -21,7 +21,7 @@
       $.ajax({
         type: 'GET',
         url: '/~ct310/yr2018sp/master.json',
-        async: false,
+        async: true,
         success: function (data) {
           var showList = $('#list');
           console.log(data);
