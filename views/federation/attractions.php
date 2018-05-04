@@ -20,16 +20,17 @@
     $(document).ready(function () {
       $.ajax({
         type: 'GET',
-        url: 'http://cs.colostate.edu/~ct310/yr2018sp/master.json',
+        url: '/~ct310/yr2018sp/master.json',
         async: false,
         success: function (data) {
           var showList = $('#list');
           console.log(data);
           var teams = data.map(function (item) {
-            $.getJSON('http://cs.colostate.edu/~' + item.eid + '/ct310/index.php/federation/listing', function(jsobj) {
+            $.getJSON('/~' + item.eid + '/ct310/index.php/federation/listing', function(jsobj) {
               var pages = jsobj.map(function(page) {
                 if (page.name != null) {
-                  showList.append('<a href="http://cs.colostate.edu/~isaach/ct310/index.php/federation/view_external_attraction/' + item.eid + '/' + page.id + '">' + page.name + '</a><br/>');
+                  var url = "<a href=\"<?=Uri::create('index.php/federation/view_external_attraction/');?>";
+                  showList.append(url + item.eid + '/' + page.id + '">' + page.name + '</a><br/>');
                 }
               });
               return pages;

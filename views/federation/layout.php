@@ -28,7 +28,7 @@
           <ul class="nav navbar-nav">
             <li <?=checkIfActive("index"); ?> ><a href="<?=Uri::Create("index.php/federation/index"); ?>">Home</a></li>
             <li <?=checkIfActive("allstatus"); ?> ><a href="<?=Uri::Create("index.php/federation/allstatus_loading"); ?>">Federation Status</a></li>
-            <li <?=checkIfActive("attractions"); ?> ><a href="<?=Uri::Create("index.php/federation/attractions"); ?>">Our Attractions</a></li>
+            <li <?=checkIfActive("attractions"); ?> ><a href="<?=Uri::Create("index.php/federation/attractions"); ?>">Attractions</a></li>
             <?php
               if(Auth::check()) {
                 if(Auth::get('group') === '10') {
