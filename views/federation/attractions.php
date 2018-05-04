@@ -26,7 +26,7 @@
           var showList = $('#list');
           console.log(data);
           var teams = data.map(function (item) {
-            $.getJSON('http://cs.colostate.edu/~' + item.eid + '/ct310/index.php/federation/attraction/listing', function(jsobj) {
+            $.getJSON('http://cs.colostate.edu/~' + item.eid + '/ct310/index.php/federation/listing', function(jsobj) {
               var pages = jsobj.map(function(page) {
                 if (page.name != null) {
                   showList.append('<a href="http://cs.colostate.edu/~isaach/ct310/index.php/federation/view_external_attraction/' + item.eid + '/' + page.id + '">' + page.name + '</a><br/>');
