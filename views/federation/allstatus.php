@@ -43,14 +43,24 @@
                   } else {
                     var className = 'status-yellow outline-dark';
                   }
-                  showList.append('<tr>' +
-                    '<td>' + item.eid + '</td>' +
-                    '<td>' + item.team + '</td>' +
-                    '<td>' + item.nameShort + '</td>' +
-                    '<td>' + item.nameLong + '</td>' +
-                    '<td class=\"' + className + '\">' + jsobj.status + '</td>' +
-                    '</tr>'
-                  );
+                      showList.append('<tr>' +
+                        '<td>' + item.eid + '</td>' +
+                        '<td>' + item.team + '</td>' +
+                        '<td>' + item.nameShort + '</td>' +
+                        '<td>' + item.nameLong + '</td>' +
+                        '<td class=\"' + className + '\">' + jsobj.status + '</td>' +
+                        '</tr>'
+                        );
+                },
+                error: function() {
+                    showList.append('<tr>' +
+                      '<td>' + item.eid + '</td>' +
+                      '<td>' + item.team + '</td>' +
+                      '<td>' + item.nameShort + '</td>' +
+                      '<td>' + item.nameLong + '</td>' +
+                      '<td class=\"' + className + '\">' + 'undefined' + '</td>' +
+                      '</tr>'
+                      );
                 }
               });
             });
@@ -60,5 +70,3 @@
     </script>
   </div>
 </div>
-
-
